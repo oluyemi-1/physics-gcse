@@ -1,0 +1,8 @@
+[build]
+  command = """
+    git clone https://github.com/flutter/flutter.git --depth 1 -b stable flutter-sdk && \
+    export PATH="$PWD/flutter-sdk/bin:$PATH" && \
+    flutter doctor && \
+    flutter build web --release
+  """
+  publish = "build/web"
