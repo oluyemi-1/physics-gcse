@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class TTSProvider extends ChangeNotifier {
   final FlutterTts _flutterTts = FlutterTts();
   bool _isPlaying = false;
   bool _isPaused = false;
-  double _speechRate = 0.5;
+  double _speechRate = kIsWeb ? 0.9 : 0.5;
   double _pitch = 1.0;
   double _volume = 1.0;
   String _currentText = '';
