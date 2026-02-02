@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/app_provider.dart';
+import '../providers/tts_provider.dart';
 import '../theme/app_theme.dart';
 import 'login_screen.dart';
 
@@ -31,6 +32,8 @@ class ProfileScreen extends StatelessWidget {
             ],
             const SizedBox(height: 32),
             _buildStatsSection(context, app),
+            const SizedBox(height: 32),
+            _buildTTSSettings(context),
             const SizedBox(height: 32),
             if (auth.isLoggedIn) _buildSyncButton(context, app),
             if (auth.isGuest) _buildGuestPrompt(context),
@@ -150,6 +153,115 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildTTSSettings(BuildContext context) {
+    return Consumer<TTSProvider>(
+      builder: (context, tts, _) {
+        String speedLabel;
+        if (tts.speechRate <= 0.3) {
+          speedLabel = 'Very Slow';
+        } else if (tts.speechRate <= 0.5) {
+          speedLabel = 'Slow';
+        } else if (tts.speechRate <= 0.8) {
+          speedLabel = 'Normal';
+        } else if (tts.speechRate <= 1.1) {
+          speedLabel = 'Fast';
+        } else {
+          speedLabel = 'Very Fast';
+        }
+
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppTheme.surfaceColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppTheme.secondaryColor.withValues(alpha: 0.3),
+              width: 1,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.record_voice_over,
+                    color: AppTheme.secondaryColor,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Voice Settings',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Text('Speed'),
+                  const Spacer(),
+                  Text(
+                    '${tts.speechRate.toStringAsFixed(1)}x  ($speedLabel)',
+                    style: TextStyle(
+                      color: AppTheme.secondaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.slow_motion_video, size: 16),
+                  Expanded(
+                    child: Slider(
+                      value: tts.speechRate,
+                      min: 0.25,
+                      max: 1.5,
+                      divisions: 10,
+                      onChanged: (value) {
+                        tts.setSpeechRate(value);
+                      },
+                      activeColor: AppTheme.secondaryColor,
+                    ),
+                  ),
+                  const Icon(Icons.speed, size: 16),
+                ],
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    tts.speak(
+                      'This is how your voice sounds at the current speed setting.',
+                    );
+                  },
+                  icon: Icon(
+                    tts.isPlaying ? Icons.stop : Icons.play_arrow,
+                    size: 18,
+                  ),
+                  label: Text(tts.isPlaying ? 'Playing...' : 'Test Voice'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppTheme.secondaryColor,
+                    side: BorderSide(
+                      color: AppTheme.secondaryColor.withValues(alpha: 0.5),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
