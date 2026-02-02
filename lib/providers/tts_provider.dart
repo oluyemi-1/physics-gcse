@@ -6,7 +6,7 @@ class TTSProvider extends ChangeNotifier {
   FlutterTts? _flutterTts;
   bool _isPlaying = false;
   bool _isPaused = false;
-  double _speechRate = kIsWeb ? 0.8 : 0.45;
+  double _speechRate = kIsWeb ? 1.0 : 0.45;
   double _pitch = 1.0;
   double _volume = 1.0;
   String _currentText = '';
