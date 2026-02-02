@@ -312,7 +312,22 @@ class _PracticeScreenState extends State<PracticeScreen> {
               ],
             ),
           ),
-          // TTS Toggle Button
+          // TTS Toggle + Speed
+          if (_ttsEnabled && _ttsProvider != null)
+            SizedBox(
+              width: 80,
+              child: Slider(
+                value: _ttsProvider!.speechRate,
+                min: 0.25,
+                max: 1.5,
+                divisions: 10,
+                onChanged: (v) {
+                  _ttsProvider!.setSpeechRate(v);
+                  setState(() {});
+                },
+                activeColor: widget.topicColor,
+              ),
+            ),
           IconButton(
             onPressed: _toggleTTS,
             icon: Icon(

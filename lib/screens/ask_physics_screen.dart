@@ -309,15 +309,38 @@ class _AskPhysicsScreenState extends State<AskPhysicsScreen> {
               ),
               const Spacer(),
               Consumer<TTSProvider>(
-                builder: (ctx, tts, _) => IconButton(
-                  icon: Icon(
-                    tts.isPlaying ? Icons.stop : Icons.volume_up,
-                    color: const Color(0xFF00BCD4),
-                  ),
-                  onPressed: () => tts.isPlaying
-                      ? tts.stop()
-                      : tts.speak(response.bestAnswer),
-                  iconSize: 20,
+                builder: (ctx, tts, _) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${tts.speechRate.toStringAsFixed(1)}x',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 80,
+                      child: Slider(
+                        value: tts.speechRate,
+                        min: 0.25,
+                        max: 1.5,
+                        divisions: 10,
+                        onChanged: (v) => tts.setSpeechRate(v),
+                        activeColor: const Color(0xFF00BCD4),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        tts.isPlaying ? Icons.stop : Icons.volume_up,
+                        color: const Color(0xFF00BCD4),
+                      ),
+                      onPressed: () => tts.isPlaying
+                          ? tts.stop()
+                          : tts.speak(response.bestAnswer),
+                      iconSize: 20,
+                    ),
+                  ],
                 ),
               ),
             ],

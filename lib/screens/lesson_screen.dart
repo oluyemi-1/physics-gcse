@@ -470,13 +470,18 @@ class _LessonScreenState extends State<LessonScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.speed, size: 16),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${tts.speechRate.toStringAsFixed(1)}x',
+                    style: const TextStyle(fontSize: 12),
+                  ),
                   SizedBox(
-                    width: 150,
+                    width: 140,
                     child: Slider(
                       value: tts.speechRate,
-                      min: 0.1,
-                      max: 1.0,
+                      min: 0.25,
+                      max: 1.5,
+                      divisions: 10,
                       onChanged: (value) {
                         tts.setSpeechRate(value);
                       },
