@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'providers/app_provider.dart';
 import 'providers/tts_provider.dart';
 import 'providers/sound_provider.dart';
@@ -31,6 +32,9 @@ void main() async {
     ),
   );
 
+  // Keep screen awake while app is in use
+  WakelockPlus.enable();
+
   await initSupabase();
   runApp(const PhysicsGCSEApp());
 }
@@ -52,7 +56,74 @@ class PhysicsGCSEApp extends StatelessWidget {
         title: 'Physics GCSE',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,
-        home: const _AppEntry(),
+        home: const _ConnectivityGate(),
+      ),
+    );
+  }
+}
+
+/// Blocks the entire app when there is no internet connection.
+class _ConnectivityGate extends StatelessWidget {
+  const _ConnectivityGate();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ConnectivityService>(
+      builder: (context, connectivity, child) {
+        if (!connectivity.isOnline) {
+          return const _NoInternetScreen();
+        }
+        return const _AppEntry();
+      },
+    );
+  }
+}
+
+/// Full-screen overlay shown when there is no internet.
+class _NoInternetScreen extends StatelessWidget {
+  const _NoInternetScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundDark,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.wifi_off_rounded,
+                size: 80,
+                color: Colors.white.withValues(alpha: 0.5),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'No Internet Connection',
+                style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Physics GCSE requires an internet connection to work. Please check your connection and try again.',
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // ConnectivityService automatically detects reconnection,
+                  // so this button is just for user reassurance.
+                  // Force a rebuild by reading the provider.
+                  context.read<ConnectivityService>();
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
