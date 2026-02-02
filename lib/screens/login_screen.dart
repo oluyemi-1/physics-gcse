@@ -54,10 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _continueAsGuest() {
-    _goHome();
-  }
-
   InputDecoration _inputDecoration({
     required String label,
     required IconData icon,
@@ -353,21 +349,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Continue as Guest
-                      TextButton(
-                        onPressed:
-                            authProvider.loading ? null : _continueAsGuest,
-                        child: Text(
-                          'Continue as Guest',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.7),
-                            fontSize: 16,
                           ),
                         ),
                       ),

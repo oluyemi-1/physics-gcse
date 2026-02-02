@@ -26,19 +26,16 @@ class ProfileScreen extends StatelessWidget {
             _buildAvatar(auth),
             const SizedBox(height: 16),
             _buildName(context, auth),
-            if (!auth.isGuest) ...[
-              const SizedBox(height: 4),
-              _buildEmail(context, auth),
-            ],
+            const SizedBox(height: 4),
+            _buildEmail(context, auth),
             const SizedBox(height: 32),
             _buildStatsSection(context, app),
             const SizedBox(height: 32),
             _buildTTSSettings(context),
             const SizedBox(height: 32),
-            if (auth.isLoggedIn) _buildSyncButton(context, app),
-            if (auth.isGuest) _buildGuestPrompt(context),
+            _buildSyncButton(context, app),
             const SizedBox(height: 16),
-            if (auth.isLoggedIn) _buildSignOutButton(context, auth),
+            _buildSignOutButton(context, auth),
           ],
         ),
       ),
@@ -49,8 +46,8 @@ class ProfileScreen extends StatelessWidget {
     return CircleAvatar(
       radius: 48,
       backgroundColor: AppTheme.accentColor.withValues(alpha: 0.2),
-      child: Icon(
-        auth.isGuest ? Icons.person_outline : Icons.person,
+      child: const Icon(
+        Icons.person,
         size: 48,
         color: AppTheme.accentColor,
       ),
@@ -58,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildName(BuildContext context, AuthProvider auth) {
-    final name = auth.isGuest ? 'Guest' : (auth.displayName ?? 'Student');
+    final name = auth.displayName ?? 'Student';
     return Text(
       name,
       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -290,66 +287,6 @@ class ProfileScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildGuestPrompt(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppTheme.primaryColor.withValues(alpha: 0.3),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        children: [
-          Icon(
-            Icons.cloud_off,
-            size: 40,
-            color: AppTheme.textSecondary.withValues(alpha: 0.7),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Your progress is stored locally',
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Create an account to sync your progress across devices and never lose your data.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.textSecondary,
-                ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const LoginScreen(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primaryColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text('Create Account / Sign In'),
-            ),
-          ),
-        ],
       ),
     );
   }

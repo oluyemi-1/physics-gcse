@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'providers/app_provider.dart';
 import 'providers/tts_provider.dart';
@@ -137,45 +136,35 @@ class _AppEntry extends StatefulWidget {
 }
 
 class _AppEntryState extends State<_AppEntry> {
-  bool _checkedFirstLaunch = false;
-  bool _showLogin = false;
+  bool _ready = false;
 
   @override
   void initState() {
     super.initState();
-    _checkFirstLaunch();
+    _init();
   }
 
-  Future<void> _checkFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasLaunched = prefs.getBool('has_launched') ?? false;
-
-    if (!hasLaunched) {
-      await prefs.setBool('has_launched', true);
-      _showLogin = true;
-    }
-
+  Future<void> _init() async {
     if (!mounted) return;
 
-    if (!_showLogin) {
-      // Returning user — if logged in, trigger background sync
-      final auth = context.read<AuthProvider>();
-      if (auth.isLoggedIn) {
-        context.read<AppProvider>().syncNow();
-      }
+    // If already logged in, trigger background sync
+    final auth = context.read<AuthProvider>();
+    if (auth.isLoggedIn) {
+      context.read<AppProvider>().syncNow();
     }
 
-    setState(() => _checkedFirstLaunch = true);
+    setState(() => _ready = true);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_checkedFirstLaunch) {
+    if (!_ready) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    return _showLogin ? const LoginScreen() : const HomeScreen();
+    final auth = Provider.of<AuthProvider>(context);
+    return auth.isLoggedIn ? const HomeScreen() : const LoginScreen();
   }
 }
