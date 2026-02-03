@@ -58,7 +58,7 @@ class _AskPhysicsScreenState extends State<AskPhysicsScreen> {
       _isSearching = true;
     });
 
-    final response = await _searchService.search(trimmed);
+    final response = _searchService.search(trimmed);
 
     setState(() {
       _messages.add(ChatMessage(

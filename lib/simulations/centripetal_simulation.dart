@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Centripetal Force Simulation demonstrating circular motion
 /// Shows how centripetal force keeps objects moving in a circle
@@ -53,12 +55,20 @@ class _CentripetalSimulationState extends State<CentripetalSimulation>
     super.dispose();
   }
 
+  double _lastSoundAngle = 0.0;
+
   void _updateRotation() {
     if (!_isRunning) return;
     setState(() {
+      final oldAngle = _angle;
       _angle += _angularVelocity / 60; // 60 fps
       if (_angle > 2 * math.pi) {
         _angle -= 2 * math.pi;
+        context.read<SoundProvider>().playWhoosh();
+      }
+      // Play a subtle whoosh every half revolution
+      if ((oldAngle < math.pi && _angle >= math.pi)) {
+        context.read<SoundProvider>().playWhoosh();
       }
     });
   }
@@ -203,6 +213,7 @@ class _CentripetalSimulationState extends State<CentripetalSimulation>
                 selectedColor: Colors.indigo.shade400,
                 onSelected: (selected) {
                   if (selected) {
+                    context.read<SoundProvider>().playClick();
                     setState(() {
                       _exampleType = type;
                       // Set realistic values for each example

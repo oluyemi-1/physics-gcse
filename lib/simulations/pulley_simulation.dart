@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Pulley System Simulation demonstrating mechanical advantage
 /// Shows how pulleys reduce the force needed to lift objects
@@ -61,6 +63,7 @@ class _PulleySimulationState extends State<PulleySimulation>
       if (_ropePosition > 150) {
         _ropePosition = 150;
         _isPulling = false;
+        context.read<SoundProvider>().playSuccess();
       }
     });
   }
@@ -215,6 +218,7 @@ class _PulleySimulationState extends State<PulleySimulation>
                 selectedColor: Colors.blueGrey.shade400,
                 onSelected: (selected) {
                   if (selected) {
+                    context.read<SoundProvider>().playClick();
                     setState(() {
                       _numPulleys = n;
                       _ropePosition = 0;
@@ -268,10 +272,14 @@ class _PulleySimulationState extends State<PulleySimulation>
                   max: 500,
                   activeColor: _pullForce >= _effortRequired ? Colors.green : Colors.red,
                   onChanged: (value) {
+                    final wasLifting = _isPulling;
                     setState(() {
                       _pullForce = value;
                       _isPulling = value >= _effortRequired;
                     });
+                    if (_isPulling && !wasLifting) {
+                      context.read<SoundProvider>().playMotor();
+                    }
                   },
                 ),
               ),

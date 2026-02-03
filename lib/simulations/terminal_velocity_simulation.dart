@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 class TerminalVelocitySimulation extends StatefulWidget {
   const TerminalVelocitySimulation({super.key});
@@ -86,6 +88,7 @@ class _TerminalVelocitySimulationState extends State<TerminalVelocitySimulation>
       // Check if terminal velocity reached
       if (_velocity > terminalV * 0.95 && !_reachedTerminal) {
         _reachedTerminal = true;
+        context.read<SoundProvider>().playBeep();
         speakSimulation(
           'Terminal velocity reached! Air resistance now equals weight. '
           'The object falls at constant speed of ${terminalV.toStringAsFixed(1)} metres per second.',
@@ -104,6 +107,7 @@ class _TerminalVelocitySimulationState extends State<TerminalVelocitySimulation>
       _isRunning = !_isRunning;
       if (_isRunning) {
         _controller.repeat();
+        context.read<SoundProvider>().playWhoosh();
       } else {
         _controller.stop();
       }

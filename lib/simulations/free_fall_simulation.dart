@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Free Fall Simulation demonstrating acceleration due to gravity
 /// Shows objects falling with constant acceleration (ignoring air resistance)
@@ -84,6 +86,8 @@ class _FreeFallSimulationState extends State<FreeFallSimulation>
           impactVelocity: impactVelocity,
         ));
 
+        context.read<SoundProvider>().playCollision(intensity: impactVelocity / 50);
+
         speakSimulation(
           'Impact! The object fell ${_dropHeight.toStringAsFixed(1)} meters in ${_elapsedTime.toStringAsFixed(2)} seconds, '
           'reaching a final velocity of ${impactVelocity.toStringAsFixed(1)} meters per second.',
@@ -93,6 +97,8 @@ class _FreeFallSimulationState extends State<FreeFallSimulation>
   }
 
   void _startDrop() {
+    context.read<SoundProvider>().playWhoosh();
+
     setState(() {
       _isDropping = true;
       _currentHeight = _dropHeight;

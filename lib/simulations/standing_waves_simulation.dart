@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Standing Waves Simulation demonstrating stationary wave patterns
 /// Shows nodes, antinodes, and harmonics on strings and in pipes
@@ -229,6 +231,7 @@ class _StandingWavesSimulationState extends State<StandingWavesSimulation>
                 selectedColor: Colors.cyan.shade400,
                 onSelected: (selected) {
                   if (selected) {
+                    context.read<SoundProvider>().playClick();
                     setState(() {
                       _systemType = type;
                       // Closed pipe only supports odd harmonics
@@ -268,6 +271,7 @@ class _StandingWavesSimulationState extends State<StandingWavesSimulation>
                     selectedColor: Colors.cyan,
                     onSelected: (selected) {
                       if (selected) {
+                        context.read<SoundProvider>().playWave();
                         setState(() => _harmonic = n);
                         speakSimulation(
                           '${_getHarmonicName()} harmonic. This has $_numNodes nodes and $_numAntinodes antinodes.',

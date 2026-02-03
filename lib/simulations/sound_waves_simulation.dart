@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 class SoundWavesSimulation extends StatefulWidget {
   const SoundWavesSimulation({super.key});
@@ -70,6 +72,7 @@ class _SoundWavesSimulationState extends State<SoundWavesSimulation>
     setState(() {
       _frequency = value;
     });
+    context.read<SoundProvider>().playBeep(pitch: value / 2.5);
 
     if (value > 3.5) {
       speakSimulation(
@@ -99,6 +102,7 @@ class _SoundWavesSimulationState extends State<SoundWavesSimulation>
 
   void _onMediumChanged(String? medium) {
     if (medium == null) return;
+    context.read<SoundProvider>().playWave();
     setState(() {
       _selectedMedium = medium;
     });

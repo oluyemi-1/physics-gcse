@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Diffraction Simulation demonstrating wave bending around obstacles
 /// Shows single slit, double slit, and diffraction gratings
@@ -200,6 +202,7 @@ class _DiffractionSimulationState extends State<DiffractionSimulation>
                 selectedColor: Colors.deepPurple.shade400,
                 onSelected: (selected) {
                   if (selected) {
+                    context.read<SoundProvider>().playWave();
                     setState(() {
                       _diffractionType = type;
                       _numSlits = type == 'Single Slit' ? 1 : (type == 'Double Slit' ? 2 : 6);

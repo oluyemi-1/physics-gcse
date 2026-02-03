@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Inclined Plane Simulation demonstrating forces on a slope
 /// Shows how weight is resolved into components parallel and perpendicular to the plane
@@ -80,11 +82,14 @@ class _InclinedPlaneSimulationState extends State<InclinedPlaneSimulation>
         _position = 250;
         _velocity = 0;
         _isReleased = false;
+        context.read<SoundProvider>().playCollision();
       }
     });
   }
 
   void _release() {
+    context.read<SoundProvider>().playWhoosh();
+
     setState(() {
       _isReleased = true;
       _position = 0;

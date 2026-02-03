@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 class DopplerEffectSimulation extends StatefulWidget {
   const DopplerEffectSimulation({super.key});
@@ -19,9 +21,11 @@ class _DopplerEffectSimulationState extends State<DopplerEffectSimulation>
   bool _isMoving = false;
   double _sourcePosition = 0.0;
   bool _hasSpokenIntro = false;
+  bool _playedSonicBoom = false;
 
   final List<_WaveFront> _waveFronts = [];
   double _lastWaveTime = 0;
+  double _lastSirenTime = 0;
 
   double get _observerFrequencyApproaching {
     return _sourceFrequency * (_soundSpeed / (_soundSpeed - _sourceSpeed));
@@ -78,6 +82,14 @@ class _DopplerEffectSimulationState extends State<DopplerEffectSimulation>
         _lastWaveTime = 0;
       }
 
+      // Play periodic siren beep with Doppler-shifted pitch
+      _lastSirenTime += 0.016;
+      if (_lastSirenTime > 0.3) {
+        _lastSirenTime = 0;
+        final pitch = _sourcePosition < 200 ? 1.2 : 0.7;
+        context.read<SoundProvider>().playBeep(pitch: pitch);
+      }
+
       // Expand wave fronts
       for (var wave in _waveFronts) {
         wave.radius += _soundSpeed * 0.01;
@@ -99,6 +111,7 @@ class _DopplerEffectSimulationState extends State<DopplerEffectSimulation>
       _isMoving = !_isMoving;
       if (_isMoving) {
         _controller.repeat();
+        context.read<SoundProvider>().playLaunch();
         speakSimulation(
           'The sound source is now moving at ${_sourceSpeed.toStringAsFixed(0)} metres per second. '
           'Watch how the wave fronts bunch up in front and spread out behind.',
@@ -127,13 +140,19 @@ class _DopplerEffectSimulationState extends State<DopplerEffectSimulation>
       _sourceSpeed = value;
     });
 
-    if (value >= _soundSpeed) {
+    if (value >= _soundSpeed && !_playedSonicBoom) {
+      _playedSonicBoom = true;
+      context.read<SoundProvider>().playExplosion();
       speakSimulation(
         'Speed is at or above the speed of sound! This creates a sonic boom - '
         'wave fronts pile up into a shock wave.',
         force: true,
       );
-    } else if (value > _soundSpeed * 0.8) {
+    } else if (value < _soundSpeed) {
+      _playedSonicBoom = false;
+    }
+
+    if (value > _soundSpeed * 0.8 && value < _soundSpeed) {
       speakSimulation(
         'Speed set to ${value.toStringAsFixed(0)} metres per second. '
         'Approaching the speed of sound. The Doppler shift is very large.',

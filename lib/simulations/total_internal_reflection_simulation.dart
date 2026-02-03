@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'simulation_tts_mixin.dart';
+import '../providers/sound_provider.dart';
 
 /// Total Internal Reflection Simulation demonstrating critical angle
 /// Shows how light reflects completely when angle exceeds critical angle
@@ -18,6 +20,7 @@ class _TotalInternalReflectionSimulationState extends State<TotalInternalReflect
   double _incidentAngle = 30.0; // degrees
   double _n1 = 1.5; // Refractive index of medium 1 (glass)
   double _n2 = 1.0; // Refractive index of medium 2 (air)
+  bool _wasTIR = false;
 
   String _medium1 = 'Glass';
   String _medium2 = 'Air';
@@ -285,10 +288,14 @@ class _TotalInternalReflectionSimulationState extends State<TotalInternalReflect
                   max: 89,
                   activeColor: _isTIR ? Colors.yellow : Colors.blue,
                   onChanged: (value) {
-                    setState(() => _incidentAngle = value);
-                    if (_isTIR && value > _criticalAngle) {
-                      // Crossed into TIR
+                    final nowTIR = value > _criticalAngle && _n1 > _n2;
+                    if (nowTIR && !_wasTIR) {
+                      context.read<SoundProvider>().playZap();
+                    } else if (!nowTIR && _wasTIR) {
+                      context.read<SoundProvider>().playBeep();
                     }
+                    _wasTIR = nowTIR;
+                    setState(() => _incidentAngle = value);
                   },
                 ),
               ),
