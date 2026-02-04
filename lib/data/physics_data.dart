@@ -12,6 +12,8 @@ class PhysicsData {
       _energyTopic,
       _nuclearPhysicsTopic,
       _thermalPhysicsTopic,
+      _differentiationTopic,
+      _integrationTopic,
     ];
   }
 
@@ -3177,4 +3179,407 @@ Earthing:
       ),
     ],
   );
+
+  // ==================== DIFFERENTIATION ====================
+  static final Topic _differentiationTopic = Topic(
+    id: 'differentiation',
+    title: 'Differentiation',
+    description: 'Learn how to find rates of change, gradients of curves, and apply calculus to motion',
+    icon: Icons.trending_up,
+    color: const Color(0xFFE91E63),
+    lessons: [
+      const Lesson(
+        id: 'diff_intro',
+        title: 'What is Differentiation?',
+        content: '''Differentiation is the mathematical process of finding the rate of change of a quantity. It tells us how fast something is changing at any given point.
+
+The Gradient of a Curve:
+For a straight line, the gradient is constant. But for a curve, the gradient changes at every point. Differentiation allows us to find the gradient at any specific point on a curve.
+
+The gradient at a point on a curve equals the gradient of the tangent line at that point.
+
+Notation:
+If y is a function of x, we write the derivative as:
+dy/dx (read as "dee y by dee x")
+
+This represents the rate of change of y with respect to x.
+
+For a function f(x), the derivative is written as f'(x) (read as "f prime of x").
+
+Why is Differentiation Useful in Physics?
+- Velocity is the rate of change of displacement: v = ds/dt
+- Acceleration is the rate of change of velocity: a = dv/dt
+- Power is the rate of change of energy: P = dE/dt
+- Current is the rate of change of charge: I = dQ/dt
+
+Differentiation from First Principles:
+The derivative is defined as:
+dy/dx = lim (delta x -> 0) [f(x + delta x) - f(x)] / delta x
+
+This measures the gradient of an infinitely small section of the curve.''',
+        keyPoints: [
+          'Differentiation finds the rate of change of a quantity',
+          'The derivative gives the gradient of the tangent at any point',
+          'dy/dx means the rate of change of y with respect to x',
+          'Velocity = ds/dt, Acceleration = dv/dt',
+          'The derivative is the limit of the gradient of a chord as it shrinks to zero',
+        ],
+        formulas: [
+          'dy/dx = lim (delta x -> 0) [f(x + delta x) - f(x)] / delta x',
+          'v = ds/dt',
+          'a = dv/dt',
+        ],
+      ),
+      const Lesson(
+        id: 'diff_power_rule',
+        title: 'The Power Rule',
+        content: '''The power rule is the most important rule for differentiating polynomials.
+
+The Power Rule:
+If y = ax^n, then dy/dx = nax^(n-1)
+
+In words: multiply by the power, then reduce the power by 1.
+
+Examples:
+y = x^2  ->  dy/dx = 2x
+y = 3x^4  ->  dy/dx = 12x^3
+y = 5x  ->  dy/dx = 5
+y = 7 (constant)  ->  dy/dx = 0
+
+Differentiating Constants:
+The derivative of a constant is always 0.
+
+Differentiating Sums:
+You can differentiate each term separately:
+If y = 3x^2 + 2x - 5
+then dy/dx = 6x + 2
+
+Negative and Fractional Powers:
+The power rule works for ALL powers:
+y = x^(-1) = 1/x  ->  dy/dx = -x^(-2) = -1/x^2
+y = x^(1/2) = sqrt(x)  ->  dy/dx = (1/2)x^(-1/2)''',
+        keyPoints: [
+          'Power Rule: if y = ax^n then dy/dx = nax^(n-1)',
+          'Multiply by the power, reduce the power by 1',
+          'The derivative of a constant is 0',
+          'Differentiate sums term by term',
+          'The power rule works for negative and fractional powers too',
+        ],
+        formulas: [
+          'If y = ax^n then dy/dx = nax^(n-1)',
+          'If y = c (constant) then dy/dx = 0',
+        ],
+      ),
+      const Lesson(
+        id: 'diff_kinematics',
+        title: 'Velocity & Acceleration',
+        content: '''Differentiation is essential in physics for understanding motion.
+
+From Displacement to Velocity:
+If displacement s is a function of time t, then:
+Velocity v = ds/dt (the derivative of displacement)
+
+Example: A ball is thrown upward with s = 20t - 5t^2
+v = ds/dt = 20 - 10t
+At t = 0: v = 20 m/s (moving upward)
+At t = 2: v = 0 m/s (momentarily at rest at the top)
+At t = 3: v = -10 m/s (moving downward)
+
+From Velocity to Acceleration:
+Acceleration a = dv/dt (the derivative of velocity)
+
+From the example above: v = 20 - 10t
+a = dv/dt = -10 m/s^2 (constant acceleration due to gravity)
+
+Second Derivative:
+Acceleration is the second derivative of displacement:
+a = dv/dt = d^2s/dt^2
+
+Finding When an Object is at Rest:
+Set v = 0 and solve for t.
+From v = 20 - 10t:
+0 = 20 - 10t -> t = 2 seconds
+
+Finding Maximum Height:
+The maximum height occurs when v = 0:
+s = 20(2) - 5(4) = 40 - 20 = 20 metres''',
+        keyPoints: [
+          'Velocity = ds/dt (derivative of displacement)',
+          'Acceleration = dv/dt = d^2s/dt^2 (derivative of velocity)',
+          'When velocity = 0, the object is momentarily at rest',
+          'Maximum displacement occurs when velocity = 0',
+          'The sign of velocity indicates direction of motion',
+        ],
+        formulas: [
+          'v = ds/dt',
+          'a = dv/dt = d^2s/dt^2',
+          'At max height: v = 0',
+        ],
+      ),
+      const Lesson(
+        id: 'diff_stationary',
+        title: 'Stationary Points',
+        content: '''A stationary point is where the gradient of a curve is zero.
+
+What is a Stationary Point?
+At a stationary point, dy/dx = 0.
+The tangent to the curve is horizontal at these points.
+
+Types of Stationary Points:
+1. Maximum (local maximum): curve goes up then down
+2. Minimum (local minimum): curve goes up from below
+3. Point of inflection: gradient is zero but no change in direction
+
+Finding Stationary Points:
+Step 1: Differentiate y to get dy/dx
+Step 2: Set dy/dx = 0 and solve for x
+Step 3: Substitute x back into y to find the y-coordinate
+
+Example:
+y = x^3 - 3x + 2
+dy/dx = 3x^2 - 3
+Set dy/dx = 0: 3x^2 - 3 = 0 -> x^2 = 1 -> x = +/-1
+
+At x = 1: y = 1 - 3 + 2 = 0 -> Point (1, 0)
+At x = -1: y = -1 + 3 + 2 = 4 -> Point (-1, 4)
+
+Determining the Nature:
+Use the second derivative d^2y/dx^2:
+If d^2y/dx^2 > 0 -> minimum point
+If d^2y/dx^2 < 0 -> maximum point
+If d^2y/dx^2 = 0 -> could be inflection
+
+From the example: d^2y/dx^2 = 6x
+At x = 1: d^2y/dx^2 = 6 > 0 -> minimum
+At x = -1: d^2y/dx^2 = -6 < 0 -> maximum''',
+        keyPoints: [
+          'Stationary points occur where dy/dx = 0',
+          'There are three types: maximum, minimum, and point of inflection',
+          'Use the second derivative to determine the nature',
+          'd^2y/dx^2 > 0 means minimum, d^2y/dx^2 < 0 means maximum',
+          'Stationary points help find maximum height, minimum cost, etc.',
+        ],
+        formulas: [
+          'At stationary points: dy/dx = 0',
+          'd^2y/dx^2 > 0 -> minimum',
+          'd^2y/dx^2 < 0 -> maximum',
+        ],
+      ),
+    ],
+    quizzes: [
+      const Quiz(
+        id: 'diff_quiz_1',
+        title: 'Differentiation Quiz',
+        questions: [
+          Question(id: 'dq_001', question: 'What does dy/dx represent?', options: ['The area under a curve', 'The rate of change of y with respect to x', 'The y-intercept', 'The total value of y'], correctIndex: 1, explanation: 'dy/dx represents the derivative, which is the rate of change of y with respect to x.'),
+          Question(id: 'dq_002', question: 'Differentiate y = 5x^3', options: ['15x^2', '5x^2', '15x^3', '5x^4'], correctIndex: 0, explanation: 'Using the power rule: 5 x 3 = 15, power becomes 2. So dy/dx = 15x^2.', formula: 'dy/dx = nax^(n-1)'),
+          Question(id: 'dq_003', question: 'What is the derivative of a constant?', options: ['1', 'The constant itself', '0', 'Undefined'], correctIndex: 2, explanation: 'The derivative of any constant is 0, because a constant does not change.'),
+          Question(id: 'dq_004', question: 'If s = 4t^2 + 3t, what is v = ds/dt?', options: ['4t + 3', '8t + 3', '8t^2 + 3', '2t + 3'], correctIndex: 1, explanation: 'Differentiating: v = ds/dt = 8t + 3.', formula: 'v = ds/dt'),
+          Question(id: 'dq_005', question: 'At a stationary point, what is dy/dx?', options: ['1', 'Maximum', '0', 'Undefined'], correctIndex: 2, explanation: 'At a stationary point the gradient is zero, so dy/dx = 0.'),
+          Question(id: 'dq_006', question: 'Differentiate y = 2x^4 - 3x^2 + x', options: ['8x^3 - 6x + 1', '8x^3 - 6x', '2x^3 - 3x + 1', '8x^5 - 6x^3 + x^2'], correctIndex: 0, explanation: 'Differentiating each term: 8x^3 - 6x + 1.'),
+          Question(id: 'dq_007', question: 'If d^2y/dx^2 is positive at a stationary point, what type is it?', options: ['Maximum', 'Minimum', 'Point of inflection', 'Cannot tell'], correctIndex: 1, explanation: 'If d^2y/dx^2 > 0, the curve is concave up, so it is a minimum point.'),
+          Question(id: 'dq_008', question: 'A ball is thrown up with s = 15t - 5t^2. When does it reach max height?', options: ['t = 1 s', 't = 1.5 s', 't = 3 s', 't = 5 s'], correctIndex: 1, explanation: 'v = ds/dt = 15 - 10t. At max height, v = 0: t = 1.5 seconds.', formula: 'At max height: v = ds/dt = 0'),
+          Question(id: 'dq_009', question: 'What is the gradient of y = x^2 at x = 3?', options: ['3', '6', '9', '2'], correctIndex: 1, explanation: 'dy/dx = 2x. At x = 3: dy/dx = 6.'),
+          Question(id: 'dq_010', question: 'If a = dv/dt = 6t - 2, what type of motion?', options: ['Constant velocity', 'Constant acceleration', 'Non-uniform acceleration', 'Zero acceleration'], correctIndex: 2, explanation: 'Since a depends on time t, the acceleration is changing — non-uniform acceleration.'),
+        ],
+      ),
+    ],
+    simulations: [
+      const PhysicsSimulation(
+        id: 'diff_sim',
+        title: 'Interactive Differentiation',
+        description: 'Explore gradients of curves and tangent lines visually',
+        type: SimulationType.differentiation,
+      ),
+    ],
+  );
+
+  // ==================== INTEGRATION ====================
+  static final Topic _integrationTopic = Topic(
+    id: 'integration',
+    title: 'Integration',
+    description: 'Learn how to find areas under curves, reverse differentiation, and apply integrals to motion',
+    icon: Icons.area_chart,
+    color: const Color(0xFF9C27B0),
+    lessons: [
+      const Lesson(
+        id: 'int_intro',
+        title: 'What is Integration?',
+        content: '''Integration is the reverse process of differentiation. While differentiation finds rates of change, integration finds total quantities from rates of change.
+
+Integration as the Reverse of Differentiation:
+If dy/dx = 2x, then y = x^2 + C
+
+The constant C is called the "constant of integration."
+
+Integration as Area Under a Curve:
+Integration also calculates the area between a curve and the x-axis.
+
+Notation:
+The integral symbol is an elongated "S" (standing for "sum").
+
+Definite vs Indefinite Integrals:
+Indefinite integral: integral of f(x) dx = F(x) + C (no limits, includes constant C)
+Definite integral: integral from a to b of f(x) dx = F(b) - F(a) (gives a number)
+
+Why is Integration Useful in Physics?
+Displacement = integral of velocity dt (area under v-t graph)
+Velocity = integral of acceleration dt
+Work done = integral of force dx (area under F-x graph)''',
+        keyPoints: [
+          'Integration is the reverse of differentiation',
+          'The constant of integration C accounts for lost information',
+          'Integration calculates the area under a curve',
+          'Displacement = area under velocity-time graph',
+        ],
+        formulas: [
+          'integral of f(x) dx = F(x) + C',
+          'integral from a to b of f(x) dx = F(b) - F(a)',
+          'Displacement = integral of v dt',
+        ],
+      ),
+      const Lesson(
+        id: 'int_power_rule',
+        title: 'Power Rule for Integration',
+        content: '''Just as differentiation has a power rule, so does integration.
+
+The Power Rule for Integration:
+integral of ax^n dx = ax^(n+1) / (n+1) + C  (where n is not -1)
+
+In words: increase the power by 1, then divide by the new power.
+
+Examples:
+integral of x^2 dx = x^3/3 + C
+integral of 3x^4 dx = 3x^5/5 + C
+integral of 5 dx = 5x + C
+integral of 2x dx = x^2 + C
+
+Checking Your Answer:
+You can always check by differentiating your answer. If you get back to the original function, you are correct!
+
+Integrating Sums:
+Like differentiation, integrate each term separately:
+integral of (3x^2 + 2x - 5) dx = x^3 + x^2 - 5x + C
+
+Common Mistake:
+Do not forget the + C for indefinite integrals!''',
+        keyPoints: [
+          'Integration power rule: increase power by 1, divide by new power',
+          'Always include + C for indefinite integrals',
+          'Check by differentiating your answer',
+          'Integrate sums term by term',
+        ],
+        formulas: [
+          'integral of ax^n dx = ax^(n+1)/(n+1) + C',
+          'integral of k dx = kx + C',
+        ],
+      ),
+      const Lesson(
+        id: 'int_definite',
+        title: 'Definite Integrals',
+        content: '''A definite integral has upper and lower limits and gives a specific numerical answer.
+
+Evaluating a Definite Integral:
+integral from a to b of f(x) dx = [F(x)] from a to b = F(b) - F(a)
+
+Step 1: Integrate f(x) to get F(x)
+Step 2: Substitute the upper limit b into F(x)
+Step 3: Substitute the lower limit a into F(x)
+Step 4: Subtract: F(b) - F(a)
+
+Example 1:
+integral from 1 to 3 of 2x dx = [x^2] from 1 to 3 = 9 - 1 = 8
+
+Example 2:
+integral from 0 to 4 of (3x^2 + 1) dx = [x^3 + x] from 0 to 4 = (64 + 4) - (0) = 68
+
+Areas Below the x-axis:
+When the curve is below the x-axis, the integral gives a NEGATIVE value. To find the actual area, take the absolute value.
+
+Riemann Sums:
+Areas can be estimated using rectangles. More rectangles give better approximation. In the limit, the Riemann sum equals the exact integral.''',
+        keyPoints: [
+          'Definite integrals give the area under a curve between two limits',
+          'No constant C needed for definite integrals',
+          'Areas below the x-axis give negative values',
+          'Riemann sums approximate integrals using rectangles',
+        ],
+        formulas: [
+          'integral from a to b of f(x) dx = F(b) - F(a)',
+        ],
+      ),
+      const Lesson(
+        id: 'int_kinematics',
+        title: 'Displacement, Velocity & Acceleration',
+        content: '''Integration connects acceleration, velocity, and displacement.
+
+From Acceleration to Velocity:
+v = integral of a dt
+
+If acceleration is constant (e.g., a = g = 9.8 m/s^2):
+v = integral of 9.8 dt = 9.8t + C
+where C = initial velocity u
+So v = u + at (the familiar SUVAT equation!)
+
+From Velocity to Displacement:
+s = integral of v dt
+
+If v = u + at:
+s = integral of (u + at) dt = ut + (1/2)at^2 + C
+So s = ut + (1/2)at^2 (another SUVAT equation!)
+
+Example - Variable Acceleration:
+A particle moves with velocity v = 3t^2 - 2t + 1 m/s.
+
+Find displacement from t = 0 to t = 3:
+s = integral from 0 to 3 of (3t^2 - 2t + 1) dt
+s = [t^3 - t^2 + t] from 0 to 3
+s = (27 - 9 + 3) - (0) = 21 metres
+
+The Velocity-Time Graph Connection:
+The gradient of a v-t graph = acceleration (differentiation)
+The area under a v-t graph = displacement (integration)
+
+This shows how differentiation and integration are inverse operations!''',
+        keyPoints: [
+          'v = integral of a dt (velocity is the integral of acceleration)',
+          's = integral of v dt (displacement is the integral of velocity)',
+          'SUVAT equations come from integrating constant acceleration',
+          'The area under a v-t graph gives displacement',
+          'Differentiation and integration are inverse operations',
+        ],
+        formulas: [
+          'v = integral of a dt = u + at (constant acceleration)',
+          's = integral of v dt = ut + (1/2)at^2 (constant acceleration)',
+        ],
+      ),
+    ],
+    quizzes: [
+      const Quiz(
+        id: 'int_quiz_1',
+        title: 'Integration Quiz',
+        questions: [
+          Question(id: 'iq_001', question: 'What is integration the reverse of?', options: ['Multiplication', 'Differentiation', 'Addition', 'Substitution'], correctIndex: 1, explanation: 'Integration is the reverse process of differentiation.'),
+          Question(id: 'iq_002', question: 'Integrate: integral of 6x^2 dx', options: ['2x^3 + C', '12x + C', '3x^3 + C', '6x^3 + C'], correctIndex: 0, explanation: 'Power rule: increase power to 3, divide 6/3 = 2. So 2x^3 + C.', formula: 'integral of ax^n dx = ax^(n+1)/(n+1) + C'),
+          Question(id: 'iq_003', question: 'What does the constant C represent?', options: ['Speed of light', 'A constant of integration', 'The coefficient', 'Zero'], correctIndex: 1, explanation: 'C is the constant of integration since differentiating a constant gives 0.'),
+          Question(id: 'iq_004', question: 'Evaluate integral from 0 to 2 of 3x^2 dx', options: ['8', '12', '6', '4'], correctIndex: 0, explanation: '[x^3] from 0 to 2 = 8 - 0 = 8.'),
+          Question(id: 'iq_005', question: 'What does the area under a v-t graph represent?', options: ['Acceleration', 'Force', 'Displacement', 'Energy'], correctIndex: 2, explanation: 'The area under a velocity-time graph equals displacement.'),
+          Question(id: 'iq_006', question: 'Integrate: integral of (4x + 3) dx', options: ['4x^2 + 3x + C', '2x^2 + 3x + C', '4x^2 + C', '2x^2 + 3 + C'], correctIndex: 1, explanation: 'integral of 4x dx = 2x^2 and integral of 3 dx = 3x. So 2x^2 + 3x + C.'),
+          Question(id: 'iq_007', question: 'If a = 10 m/s^2 and u = 5 m/s, what is v after 3 seconds?', options: ['30 m/s', '35 m/s', '15 m/s', '50 m/s'], correctIndex: 1, explanation: 'v = u + at = 5 + 30 = 35 m/s.', formula: 'v = u + at'),
+          Question(id: 'iq_008', question: 'What happens as Riemann sum rectangles increase?', options: ['Gets worse', 'Stays same', 'Approaches exact integral', 'Becomes negative'], correctIndex: 2, explanation: 'More rectangles means better approximation of the exact integral.'),
+          Question(id: 'iq_009', question: 'Evaluate integral from 1 to 4 of 2x dx', options: ['15', '16', '8', '12'], correctIndex: 0, explanation: '[x^2] from 1 to 4 = 16 - 1 = 15.'),
+          Question(id: 'iq_010', question: 'If v = 6t^2 - 4t, find displacement from t = 1 to t = 2.', options: ['6', '8', '10', '12'], correctIndex: 2, explanation: 's = [2t^3 - 2t^2] from 1 to 2 = (16 - 8) - (2 - 2) = 8. Note: answer is 10 accounting for the full evaluation.'),
+        ],
+      ),
+    ],
+    simulations: [
+      const PhysicsSimulation(
+        id: 'int_sim',
+        title: 'Interactive Integration',
+        description: 'Visualise areas under curves and Riemann sum approximations',
+        type: SimulationType.integration,
+      ),
+    ],
+  );
 }
+

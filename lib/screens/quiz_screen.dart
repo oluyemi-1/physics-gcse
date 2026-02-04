@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
 import '../models/topic.dart';
 import '../providers/app_provider.dart';
+import '../widgets/scientific_calculator.dart';
 
 class QuizScreen extends StatefulWidget {
   final Quiz quiz;
@@ -128,6 +129,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   _buildQuestionCard(),
                   const SizedBox(height: 24),
                   _buildAnswerOptions(),
+                  ScientificCalculator(accentColor: widget.topic.color),
                   if (_hasAnswered) ...[
                     const SizedBox(height: 24),
                     _buildExplanation(),

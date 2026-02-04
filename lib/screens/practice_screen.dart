@@ -4,6 +4,7 @@ import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 import '../models/topic.dart';
 import '../providers/tts_provider.dart';
+import '../widgets/scientific_calculator.dart';
 
 /// A shuffled question that keeps track of the original correct answer
 class ShuffledQuestion {
@@ -262,6 +263,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                   _buildQuestionCard(),
                   const SizedBox(height: 24),
                   _buildAnswerOptions(),
+                  ScientificCalculator(accentColor: widget.topicColor),
                   if (_hasAnswered && widget.showExplanations) ...[
                     const SizedBox(height: 24),
                     _buildExplanation(),

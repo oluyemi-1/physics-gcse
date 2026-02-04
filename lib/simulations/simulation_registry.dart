@@ -59,6 +59,8 @@ import 'simple_machines_simulation.dart';
 import 'electrolysis_simulation.dart';
 import 'voltmeter_simulation.dart';
 import 'electroplating_simulation.dart';
+import 'differentiation_simulation.dart';
+import 'integration_simulation.dart';
 
 /// Registry for all physics simulations.
 /// Add new simulations by:
@@ -127,6 +129,9 @@ class SimulationRegistry {
     SimulationType.electrolysis: () => const ElectrolysisSimulation(),
     SimulationType.voltmeter: () => const VoltmeterSimulation(),
     SimulationType.electroplating: () => const ElectroplatingSimulation(),
+    // Calculus
+    SimulationType.differentiation: () => const DifferentiationSimulation(),
+    SimulationType.integration: () => const IntegrationSimulation(),
   };
 
   /// Get the simulation widget for a given type

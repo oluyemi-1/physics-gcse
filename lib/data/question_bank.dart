@@ -22,6 +22,10 @@ class QuestionBank {
         return _nuclearQuestions;
       case 'thermal':
         return _thermalQuestions;
+      case 'differentiation':
+        return _differentiationQuestions;
+      case 'integration':
+        return _integrationQuestions;
       default:
         return [];
     }
@@ -36,7 +40,9 @@ class QuestionBank {
         _spaceQuestions.length +
         _energyQuestions.length +
         _nuclearQuestions.length +
-        _thermalQuestions.length;
+        _thermalQuestions.length +
+        _differentiationQuestions.length +
+        _integrationQuestions.length;
   }
 
   // ==================== FORCES AND MOTION QUESTIONS ====================
@@ -15065,4 +15071,387 @@ class QuestionBank {
       explanation: 'P₁/T₁ = P₂/T₂. 200/300 = P₂/600. P₂ = 400 kPa. Temperature doubled, pressure doubled. 💡 Try the Gas Pressure simulator!',
     ),
   ];
+
+  // ============================================================
+  // DIFFERENTIATION QUESTIONS (25 questions)
+  // ============================================================
+  static final List<Question> _differentiationQuestions = [
+    const Question(
+      id: 'diff_q001',
+      question: 'What does dy/dx represent geometrically?',
+      options: ['The area under a curve', 'The gradient of the curve at a point', 'The y-intercept', 'The distance between two points'],
+      correctIndex: 1,
+      explanation: 'dy/dx gives the gradient (slope) of the tangent to the curve at any given point. It tells you the rate of change of y with respect to x.',
+    ),
+    const Question(
+      id: 'diff_q002',
+      question: 'Differentiate y = x³ with respect to x.',
+      options: ['3x²', 'x⁴/4', '3x³', 'x²'],
+      correctIndex: 0,
+      explanation: 'Using the power rule: bring down the power and reduce it by 1. y = x³ → dy/dx = 3x².',
+      formula: 'y = axⁿ → dy/dx = naxⁿ⁻¹',
+    ),
+    const Question(
+      id: 'diff_q003',
+      question: 'What is the derivative of a constant, e.g. y = 7?',
+      options: ['7', '1', '0', '7x'],
+      correctIndex: 2,
+      explanation: 'The derivative of any constant is 0. A constant has no rate of change — its graph is a flat horizontal line with gradient 0.',
+    ),
+    const Question(
+      id: 'diff_q004',
+      question: 'Differentiate y = 5x⁴.',
+      options: ['20x³', '5x³', '4x³', '20x⁵'],
+      correctIndex: 0,
+      explanation: 'Power rule: multiply the coefficient by the power then reduce the power by 1. dy/dx = 5 × 4 × x³ = 20x³.',
+      formula: 'y = axⁿ → dy/dx = naxⁿ⁻¹',
+    ),
+    const Question(
+      id: 'diff_q005',
+      question: 'Differentiate y = 3x² + 4x − 9.',
+      options: ['6x + 4', '3x + 4', '6x² + 4', '6x + 4x'],
+      correctIndex: 0,
+      explanation: 'Differentiate each term separately: 3x² → 6x, 4x → 4, −9 → 0. So dy/dx = 6x + 4.',
+    ),
+    const Question(
+      id: 'diff_q006',
+      question: 'If the displacement of a particle is s = 4t² + 3t, what is the velocity v = ds/dt?',
+      options: ['8t + 3', '4t + 3', '8t² + 3', '4t²'],
+      correctIndex: 0,
+      explanation: 'Velocity is the rate of change of displacement. Differentiating: ds/dt = 8t + 3.',
+      formula: 'v = ds/dt',
+    ),
+    const Question(
+      id: 'diff_q007',
+      question: 'If velocity v = 6t² − 2t, what is the acceleration a = dv/dt?',
+      options: ['6t − 2', '12t − 2', '12t² − 2', '3t² − t'],
+      correctIndex: 1,
+      explanation: 'Acceleration is the rate of change of velocity. Differentiating: dv/dt = 12t − 2.',
+      formula: 'a = dv/dt',
+    ),
+    const Question(
+      id: 'diff_q008',
+      question: 'A particle has displacement s = t³ − 6t. When is the particle at rest?',
+      options: ['t = 0 only', 't = √2 only', 't = ±√2', 't = 6'],
+      correctIndex: 2,
+      explanation: 'At rest means v = 0. v = ds/dt = 3t² − 6 = 0 → t² = 2 → t = ±√2. Both values satisfy v = 0.',
+    ),
+    const Question(
+      id: 'diff_q009',
+      question: 'What condition identifies a stationary point on a curve y = f(x)?',
+      options: ['dy/dx > 0', 'dy/dx < 0', 'dy/dx = 0', 'd²y/dx² = 0'],
+      correctIndex: 2,
+      explanation: 'A stationary point occurs where the gradient is zero, i.e. dy/dx = 0. At that point the tangent is horizontal.',
+    ),
+    const Question(
+      id: 'diff_q010',
+      question: 'Differentiate y = x⁻² (i.e. y = 1/x²).',
+      options: ['−2x⁻³', '2x⁻¹', '−2x⁻¹', '−x⁻³'],
+      correctIndex: 0,
+      explanation: 'The power rule works for negative powers too. dy/dx = −2x⁻³ = −2/x³.',
+      formula: 'y = axⁿ → dy/dx = naxⁿ⁻¹',
+    ),
+    const Question(
+      id: 'diff_q011',
+      question: 'Differentiate y = 4√x (i.e. y = 4x^(1/2)).',
+      options: ['4/(2√x)', '2/√x', '2x^(1/2)', '4x^(-1/2)'],
+      correctIndex: 1,
+      explanation: 'Write as y = 4x^(1/2). dy/dx = 4 × ½ × x^(-1/2) = 2x^(-1/2) = 2/√x.',
+      formula: 'y = axⁿ → dy/dx = naxⁿ⁻¹',
+    ),
+    const Question(
+      id: 'diff_q012',
+      question: 'If d²y/dx² > 0 at a stationary point, the point is a:',
+      options: ['Maximum', 'Minimum', 'Point of inflection', 'Saddle point'],
+      correctIndex: 1,
+      explanation: 'When the second derivative is positive at a stationary point, the curve is concave up, so it is a minimum.',
+    ),
+    const Question(
+      id: 'diff_q013',
+      question: 'If d²y/dx² < 0 at a stationary point, the point is a:',
+      options: ['Minimum', 'Maximum', 'Point of inflection', 'Undefined'],
+      correctIndex: 1,
+      explanation: 'When the second derivative is negative at a stationary point, the curve is concave down, so it is a maximum.',
+    ),
+    const Question(
+      id: 'diff_q014',
+      question: 'Find the gradient of y = 2x³ − x at x = 2.',
+      options: ['23', '22', '15', '11'],
+      correctIndex: 0,
+      explanation: 'dy/dx = 6x² − 1. At x = 2: gradient = 6(4) − 1 = 24 − 1 = 23.',
+    ),
+    const Question(
+      id: 'diff_q015',
+      question: 'Differentiate y = 10x.',
+      options: ['10', '10x', 'x', '0'],
+      correctIndex: 0,
+      explanation: 'y = 10x is the same as y = 10x¹. Power rule: dy/dx = 1 × 10 × x⁰ = 10. A straight line has a constant gradient.',
+    ),
+    const Question(
+      id: 'diff_q016',
+      question: 'What is the second derivative of y = x⁴?',
+      options: ['4x³', '12x²', '4x²', '24x'],
+      correctIndex: 1,
+      explanation: 'First derivative: dy/dx = 4x³. Second derivative: d²y/dx² = 12x².',
+    ),
+    const Question(
+      id: 'diff_q017',
+      question: 'Find the stationary points of y = x² − 6x + 5.',
+      options: ['x = 3', 'x = −3', 'x = 6', 'x = 5'],
+      correctIndex: 0,
+      explanation: 'dy/dx = 2x − 6. Set equal to 0: 2x − 6 = 0 → x = 3. At x = 3, y = 9 − 18 + 5 = −4.',
+    ),
+    const Question(
+      id: 'diff_q018',
+      question: 'In physics, if s represents displacement and t represents time, what does ds/dt give?',
+      options: ['Acceleration', 'Velocity', 'Force', 'Displacement'],
+      correctIndex: 1,
+      explanation: 'The first derivative of displacement with respect to time gives velocity: v = ds/dt.',
+      formula: 'v = ds/dt',
+    ),
+    const Question(
+      id: 'diff_q019',
+      question: 'Differentiate y = x³ − 3x² + 2. Find the x-coordinates of the stationary points.',
+      options: ['x = 0 and x = 2', 'x = 1 and x = 3', 'x = 0 and x = −2', 'x = −1 and x = 2'],
+      correctIndex: 0,
+      explanation: 'dy/dx = 3x² − 6x = 3x(x − 2) = 0. So x = 0 or x = 2.',
+    ),
+    const Question(
+      id: 'diff_q020',
+      question: 'What does a positive value of dy/dx tell you about the curve at that point?',
+      options: ['The curve is falling', 'The curve is rising (increasing)', 'The curve has a stationary point', 'The curve is at a minimum'],
+      correctIndex: 1,
+      explanation: 'A positive gradient means the function is increasing — the curve slopes upward from left to right.',
+    ),
+    const Question(
+      id: 'diff_q021',
+      question: 'Differentiate y = 3x⁻¹ + 2x².',
+      options: ['−3x⁻² + 4x', '3x⁻² + 4x', '−3x⁻² + 2x', '3x⁻¹ + 4x'],
+      correctIndex: 0,
+      explanation: 'Differentiate term by term: 3x⁻¹ → −3x⁻² and 2x² → 4x. So dy/dx = −3x⁻² + 4x.',
+    ),
+    const Question(
+      id: 'diff_q022',
+      question: 'A ball is thrown upward with s = 20t − 5t². At what time does it reach maximum height?',
+      options: ['t = 4 s', 't = 2 s', 't = 5 s', 't = 1 s'],
+      correctIndex: 1,
+      explanation: 'v = ds/dt = 20 − 10t. At maximum height, v = 0: 20 − 10t = 0 → t = 2 s.',
+      formula: 'v = ds/dt = 0 at max height',
+    ),
+    const Question(
+      id: 'diff_q023',
+      question: 'What is d²y/dx² sometimes called in physics contexts?',
+      options: ['Velocity', 'Displacement', 'The rate of change of the rate of change', 'Area'],
+      correctIndex: 2,
+      explanation: 'The second derivative is the rate of change of the rate of change. In kinematics, d²s/dt² = acceleration (rate of change of velocity).',
+    ),
+    const Question(
+      id: 'diff_q024',
+      question: 'Differentiate y = 6x^(2/3).',
+      options: ['4x^(-1/3)', '4x^(1/3)', '9x^(1/3)', '6x^(-1/3)'],
+      correctIndex: 0,
+      explanation: 'dy/dx = (2/3) × 6 × x^(2/3 − 1) = 4x^(-1/3).',
+      formula: 'y = axⁿ → dy/dx = naxⁿ⁻¹',
+    ),
+    const Question(
+      id: 'diff_q025',
+      question: 'For y = x² − 4x + 7, find the minimum value of y.',
+      options: ['3', '7', '−4', '0'],
+      correctIndex: 0,
+      explanation: 'dy/dx = 2x − 4 = 0 → x = 2. d²y/dx² = 2 > 0 (minimum). y(2) = 4 − 8 + 7 = 3.',
+    ),
+  ];
+
+  // ============================================================
+  // INTEGRATION QUESTIONS (25 questions)
+  // ============================================================
+  static final List<Question> _integrationQuestions = [
+    const Question(
+      id: 'int_q001',
+      question: 'Integration is the reverse process of:',
+      options: ['Multiplication', 'Division', 'Differentiation', 'Subtraction'],
+      correctIndex: 2,
+      explanation: 'Integration is the reverse (inverse) of differentiation. If differentiating f(x) gives f\'(x), then integrating f\'(x) gives back f(x) + C.',
+    ),
+    const Question(
+      id: 'int_q002',
+      question: 'Integrate ∫ x³ dx.',
+      options: ['x⁴/4 + C', '3x²', 'x⁴ + C', 'x³/3 + C'],
+      correctIndex: 0,
+      explanation: 'Using the power rule for integration: raise the power by 1 and divide by the new power. ∫ x³ dx = x⁴/4 + C.',
+      formula: '∫ xⁿ dx = xⁿ⁺¹/(n+1) + C',
+    ),
+    const Question(
+      id: 'int_q003',
+      question: 'Why do we add "+ C" when performing indefinite integration?',
+      options: ['It stands for "constant speed"', 'Because the derivative of any constant is zero, so the original constant is unknown', 'It is only needed in physics', 'C represents the coefficient'],
+      correctIndex: 1,
+      explanation: 'When we differentiate, any constant disappears (its derivative is 0). So when we reverse the process, we must add an arbitrary constant C to account for that lost information.',
+    ),
+    const Question(
+      id: 'int_q004',
+      question: 'Integrate ∫ 6x² dx.',
+      options: ['12x + C', '2x³ + C', '6x³/3 + C', '3x² + C'],
+      correctIndex: 1,
+      explanation: '∫ 6x² dx = 6 × x³/3 + C = 2x³ + C.',
+      formula: '∫ axⁿ dx = axⁿ⁺¹/(n+1) + C',
+    ),
+    const Question(
+      id: 'int_q005',
+      question: 'Integrate ∫ 5 dx.',
+      options: ['5x + C', '5', '0', '5x²/2 + C'],
+      correctIndex: 0,
+      explanation: 'A constant integrates to that constant times x. ∫ 5 dx = 5x + C. Think of 5 as 5x⁰; power rule gives 5x¹/1 = 5x.',
+    ),
+    const Question(
+      id: 'int_q006',
+      question: 'Evaluate the definite integral ∫₁³ 2x dx.',
+      options: ['4', '8', '6', '10'],
+      correctIndex: 1,
+      explanation: '∫ 2x dx = x². Evaluate: [x²]₁³ = 3² − 1² = 9 − 1 = 8.',
+      formula: '∫ₐᵇ f(x) dx = F(b) − F(a)',
+    ),
+    const Question(
+      id: 'int_q007',
+      question: 'What does a definite integral represent geometrically?',
+      options: ['The gradient of a curve', 'The area under the curve between two limits', 'The maximum point', 'The tangent line'],
+      correctIndex: 1,
+      explanation: 'A definite integral ∫ₐᵇ f(x) dx gives the net area between the curve y = f(x), the x-axis, and the vertical lines x = a and x = b.',
+    ),
+    const Question(
+      id: 'int_q008',
+      question: 'In kinematics, the area under a velocity-time graph gives:',
+      options: ['Acceleration', 'Displacement', 'Speed', 'Force'],
+      correctIndex: 1,
+      explanation: 'Since displacement = ∫ v dt, the area under a velocity-time graph equals displacement (or distance travelled if velocity is positive).',
+      formula: 's = ∫ v dt',
+    ),
+    const Question(
+      id: 'int_q009',
+      question: 'Integrate ∫ (3x² + 2x − 1) dx.',
+      options: ['x³ + x² − x + C', '6x + 2 + C', '3x³ + 2x² − x + C', 'x³ + x² + C'],
+      correctIndex: 0,
+      explanation: 'Integrate term by term: 3x²→x³, 2x→x², −1→−x. Result: x³ + x² − x + C.',
+    ),
+    const Question(
+      id: 'int_q010',
+      question: 'If acceleration a = 6t, find the velocity v given that v = 0 when t = 0.',
+      options: ['v = 6t²', 'v = 3t²', 'v = 6t', 'v = 3t² + 6'],
+      correctIndex: 1,
+      explanation: 'v = ∫ a dt = ∫ 6t dt = 3t² + C. Using v = 0 at t = 0: 0 = 0 + C → C = 0. So v = 3t².',
+      formula: 'v = ∫ a dt',
+    ),
+    const Question(
+      id: 'int_q011',
+      question: 'Evaluate ∫₀² 3x² dx.',
+      options: ['6', '8', '12', '4'],
+      correctIndex: 1,
+      explanation: '∫ 3x² dx = x³. Evaluate: [x³]₀² = 2³ − 0³ = 8 − 0 = 8.',
+      formula: '∫ₐᵇ f(x) dx = F(b) − F(a)',
+    ),
+    const Question(
+      id: 'int_q012',
+      question: 'Integrate ∫ x⁻² dx (where x ≠ 0).',
+      options: ['−x⁻¹ + C', 'x⁻¹ + C', '−x⁻³/3 + C', 'ln(x) + C'],
+      correctIndex: 0,
+      explanation: '∫ x⁻² dx = x⁻¹/(−1) + C = −x⁻¹ + C = −1/x + C.',
+      formula: '∫ xⁿ dx = xⁿ⁺¹/(n+1) + C (n ≠ −1)',
+    ),
+    const Question(
+      id: 'int_q013',
+      question: 'A particle has velocity v = 4t − 1. What is the displacement from t = 1 to t = 3?',
+      options: ['6', '10', '14', '8'],
+      correctIndex: 2,
+      explanation: 's = ∫₁³ (4t − 1) dt = [2t² − t]₁³ = (2(9) − 3) − (2(1) − 1) = 15 − 1 = 14.',
+      formula: 's = ∫ v dt',
+    ),
+    const Question(
+      id: 'int_q014',
+      question: 'What is a Riemann sum?',
+      options: ['A method for differentiating', 'An approximation of a definite integral using rectangles', 'A formula for velocity', 'Another name for the power rule'],
+      correctIndex: 1,
+      explanation: 'A Riemann sum approximates the area under a curve by dividing it into narrow rectangles and summing their areas. As the rectangles get thinner, the sum approaches the exact integral.',
+    ),
+    const Question(
+      id: 'int_q015',
+      question: 'Integrate ∫ 4x^(1/2) dx.',
+      options: ['(8/3)x^(3/2) + C', '2x^(1/2) + C', '4x^(3/2) + C', '(8/3)x^(1/2) + C'],
+      correctIndex: 0,
+      explanation: '∫ 4x^(1/2) dx = 4 × x^(3/2)/(3/2) + C = 4 × (2/3) × x^(3/2) + C = (8/3)x^(3/2) + C.',
+      formula: '∫ xⁿ dx = xⁿ⁺¹/(n+1) + C',
+    ),
+    const Question(
+      id: 'int_q016',
+      question: 'Which SUVAT equation can be derived by integrating a = constant with respect to time?',
+      options: ['s = ut + ½at²', 'v = u + at', 'v² = u² + 2as', 'F = ma'],
+      correctIndex: 1,
+      explanation: 'Integrating constant acceleration a with respect to t gives v = at + C. At t = 0, v = u so C = u. Therefore v = u + at.',
+      formula: 'v = ∫ a dt = u + at',
+    ),
+    const Question(
+      id: 'int_q017',
+      question: 'If v = u + at, integrate with respect to t to find displacement s (assuming s = 0 at t = 0).',
+      options: ['s = ut + at²', 's = ut + ½at²', 's = ½ut + at²', 's = u + ½at²'],
+      correctIndex: 1,
+      explanation: 's = ∫ (u + at) dt = ut + ½at² + C. With s = 0 at t = 0, C = 0. So s = ut + ½at².',
+      formula: 's = ∫ v dt = ut + ½at²',
+    ),
+    const Question(
+      id: 'int_q018',
+      question: 'Evaluate ∫₂⁵ 1 dx.',
+      options: ['5', '2', '3', '7'],
+      correctIndex: 2,
+      explanation: '∫ 1 dx = x. Evaluate: [x]₂⁵ = 5 − 2 = 3. This is simply the width of the interval.',
+    ),
+    const Question(
+      id: 'int_q019',
+      question: 'The area under the curve y = x² from x = 0 to x = 3 is:',
+      options: ['9', '3', '27', '6'],
+      correctIndex: 0,
+      explanation: '∫₀³ x² dx = [x³/3]₀³ = 27/3 − 0 = 9.',
+    ),
+    const Question(
+      id: 'int_q020',
+      question: 'When using Riemann sums, what happens as the number of rectangles increases?',
+      options: ['The approximation gets worse', 'The approximation gets closer to the exact integral', 'The sum always stays the same', 'The rectangles become taller'],
+      correctIndex: 1,
+      explanation: 'More rectangles means narrower widths, so the tops of the rectangles follow the curve more closely. As the number → infinity, the Riemann sum → the exact definite integral.',
+    ),
+    const Question(
+      id: 'int_q021',
+      question: 'Integrate ∫ (2x + 3)  dx and evaluate from x = 0 to x = 4.',
+      options: ['16', '28', '20', '32'],
+      correctIndex: 1,
+      explanation: '∫ (2x + 3) dx = x² + 3x. Evaluate: [x² + 3x]₀⁴ = (16 + 12) − (0) = 28.',
+    ),
+    const Question(
+      id: 'int_q022',
+      question: 'If f\'(x) = 8x and f(0) = 5, what is f(x)?',
+      options: ['4x² + 5', '8x² + 5', '4x² − 5', '8x + 5'],
+      correctIndex: 0,
+      explanation: 'f(x) = ∫ 8x dx = 4x² + C. Using f(0) = 5: 0 + C = 5 → C = 5. So f(x) = 4x² + 5.',
+    ),
+    const Question(
+      id: 'int_q023',
+      question: 'A velocity-time graph shows a triangle with base 10 s and height 20 m/s. What is the displacement?',
+      options: ['200 m', '100 m', '30 m', '150 m'],
+      correctIndex: 1,
+      explanation: 'Area of a triangle = ½ × base × height = ½ × 10 × 20 = 100 m. The area under a v-t graph gives displacement.',
+    ),
+    const Question(
+      id: 'int_q024',
+      question: 'Which of the following is the integral ∫ 0 dx?',
+      options: ['0', 'x + C', 'C', '1'],
+      correctIndex: 2,
+      explanation: 'The integral of zero is a constant: ∫ 0 dx = C. No x-dependent terms survive, only the arbitrary constant.',
+    ),
+    const Question(
+      id: 'int_q025',
+      question: 'Evaluate ∫₁⁴ (6x² − 2x) dx.',
+      options: ['102', '108', '110', '96'],
+      correctIndex: 2,
+      explanation: '∫ (6x² − 2x) dx = 2x³ − x². [2x³ − x²]₁⁴ = (2×64 − 16) − (2×1 − 1) = 112 − 1 = 111.',
+    ),
+  ];
+
 }

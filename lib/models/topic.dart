@@ -185,4 +185,7 @@ enum SimulationType {
   electrolysis,
   voltmeter,
   electroplating,
+  // Calculus
+  differentiation,
+  integration,
 }
