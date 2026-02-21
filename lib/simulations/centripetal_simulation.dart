@@ -55,7 +55,7 @@ class _CentripetalSimulationState extends State<CentripetalSimulation>
     super.dispose();
   }
 
-  double _lastSoundAngle = 0.0;
+  final double _lastSoundAngle = 0.0;
 
   void _updateRotation() {
     if (!_isRunning) return;

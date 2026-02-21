@@ -6,11 +6,13 @@ import 'providers/app_provider.dart';
 import 'providers/tts_provider.dart';
 import 'providers/sound_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/whiteboard_provider.dart';
 import 'services/supabase_config.dart';
 import 'services/connectivity_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
+import 'widgets/floating_whiteboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,8 @@ void main() async {
   runApp(const PhysicsGCSEApp());
 }
 
+final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
 class PhysicsGCSEApp extends StatelessWidget {
   const PhysicsGCSEApp({super.key});
 
@@ -50,12 +54,20 @@ class PhysicsGCSEApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SoundProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ConnectivityService()),
+        ChangeNotifierProvider(create: (_) => WhiteboardProvider()),
       ],
       child: MaterialApp(
         title: 'Physics GCSE',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,
+        navigatorKey: _navigatorKey,
         home: const _ConnectivityGate(),
+        builder: (context, child) {
+          return FloatingWhiteboardWrapper(
+            navigatorKey: _navigatorKey,
+            child: child ?? const SizedBox(),
+          );
+        },
       ),
     );
   }

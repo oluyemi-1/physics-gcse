@@ -179,16 +179,16 @@ class _IntegrationSimulationState extends State<IntegrationSimulation>
     final coeffStr = _coeffA == 1.0 ? '' : _coeffA.toStringAsFixed(1);
     if (_power == 1) {
       final prefix = coeffStr.isEmpty ? '' : coeffStr;
-      return prefix + 'x';
+      return '${prefix}x';
     }
     final prefix = coeffStr.isEmpty ? '' : coeffStr;
-    return prefix + 'x^$_power';
+    return '${prefix}x^$_power';
   }
 
   String _buildAntiderivativeString() {
     final newPower = _power + 1;
     final coeffStr = _coeffA.toStringAsFixed(1);
-    return coeffStr + 'x^$newPower / $newPower';
+    return '${coeffStr}x^$newPower / $newPower';
   }
 
   String _buildEvaluationUpperString() {
@@ -988,7 +988,7 @@ class _IntegrationPainter extends CustomPainter {
 
     // Lower bound label
     textPainter.text = TextSpan(
-      text: 'a=' + lowerBound.toStringAsFixed(1),
+      text: 'a=${lowerBound.toStringAsFixed(1)}',
       style: const TextStyle(
         color: Colors.cyan,
         fontSize: 11,
@@ -1006,7 +1006,7 @@ class _IntegrationPainter extends CustomPainter {
 
     // Upper bound label
     textPainter.text = TextSpan(
-      text: 'b=' + upperBound.toStringAsFixed(1),
+      text: 'b=${upperBound.toStringAsFixed(1)}',
       style: const TextStyle(
         color: Colors.amber,
         fontSize: 11,

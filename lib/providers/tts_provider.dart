@@ -40,11 +40,16 @@ class TTSProvider extends ChangeNotifier {
         notifyListeners();
       });
 
-      tts.setCompletionHandler(() {
+      tts.setCompletionHandler(() async {
         // Speak the next chunk if available
         _currentChunkIndex++;
         if (!_stopRequested && _currentChunkIndex < _chunks.length) {
-          _flutterTts?.speak(_chunks[_currentChunkIndex]);
+          // Small delay between chunks to prevent TTS engine dropping them
+          await Future.delayed(const Duration(milliseconds: 150));
+          // Re-check after delay in case stop was requested during the wait
+          if (!_stopRequested && _currentChunkIndex < _chunks.length) {
+            _flutterTts?.speak(_chunks[_currentChunkIndex]);
+          }
         } else {
           _isPlaying = false;
           _isPaused = false;
@@ -71,16 +76,18 @@ class TTSProvider extends ChangeNotifier {
     }
   }
 
-  /// Split text into sentences to avoid the Web Speech API cutting off.
+  /// Split text into sentence-based chunks to prevent TTS engines cutting off.
   List<String> _splitIntoChunks(String text) {
-    // Split on sentence boundaries
+    // Split on sentence boundaries (. ! ?) followed by whitespace
     final sentences = text.split(RegExp(r'(?<=[.!?])\s+'));
     final List<String> chunks = [];
     String current = '';
+    // Keep chunks under 300 chars for reliability across all platforms
+    const maxChunkLength = 300;
 
     for (final sentence in sentences) {
-      // Keep chunks under ~200 chars to stay well within the limit
-      if (current.isNotEmpty && (current.length + sentence.length) > 200) {
+      if (current.isNotEmpty &&
+          (current.length + sentence.length + 1) > maxChunkLength) {
         chunks.add(current.trim());
         current = sentence;
       } else {
@@ -118,15 +125,11 @@ class TTSProvider extends ChangeNotifier {
 
     await _flutterTts!.stop();
 
-    if (kIsWeb) {
-      // Split into chunks to avoid Web Speech API timeout
-      _chunks = _splitIntoChunks(cleanText);
-      _currentChunkIndex = 0;
+    // Always chunk text to prevent TTS engines cutting off long text
+    _chunks = _splitIntoChunks(cleanText);
+    _currentChunkIndex = 0;
+    if (_chunks.isNotEmpty) {
       await _flutterTts!.speak(_chunks[0]);
-    } else {
-      _chunks = [];
-      _currentChunkIndex = 0;
-      await _flutterTts!.speak(cleanText);
     }
   }
 

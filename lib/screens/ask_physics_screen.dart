@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/search_result.dart';
-import '../models/topic.dart';
 import '../services/physics_search_service.dart';
 import '../data/physics_data.dart';
 import '../providers/tts_provider.dart';
